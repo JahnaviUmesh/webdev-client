@@ -20,6 +20,14 @@ export default function HeadingTags() {
         <h4>h4</h4>
         <h5>h5</h5>
         <h6>h6</h6>
+        <div id="wd-ai-headings">
+          <h4>Lab notes</h4>
+          <p>This is a placeholder sentence for the lab notes section.</p>
+          <h5>What I built</h5>
+          <p>This is a placeholder sentence describing what was built.</p>
+          <h6>Next step</h6>
+          <p>This is a placeholder sentence about the next step.</p>
+        </div>
         <div id="wd-your-heading">
         <h4> Jahnavi: I am a <span id="wd-your-span">CS</span> student. I love crocheting. </h4>
       </div>

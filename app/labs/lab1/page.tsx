@@ -1,5 +1,12 @@
 import HeadingTags from "./HeadingTags";
 import ParagraphTag from "./ParagraphTag";
+import ListTags from "./ListTags";
+import TableTags from "./Tables";
+import ImageTags from "./Images";
+import Forms from "./forms/Forms";
+import HighlightedParagraph from "./HighlightedParagraph";
+import HighlightedBox from "./HighlightedBox";
+import AnchorTag from "./AnchorTag";
 
 export default function Lab1() {
   return (
@@ -8,6 +15,13 @@ export default function Lab1() {
       <h3>HTML Examples</h3>
       <HeadingTags />
       <ParagraphTag />
+      <ListTags />
+      <TableTags />
+      <ImageTags />
+      <Forms />
+      <HighlightedParagraph />
+      <HighlightedBox />
+      <AnchorTag />
       {/* do the next exercise here */}
     </div>
   );
