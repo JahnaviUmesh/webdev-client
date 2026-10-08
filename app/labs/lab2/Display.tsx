@@ -36,7 +36,7 @@ export default function Display() {
         <h3>Inline div with the width ignored</h3>
         <div>
             <div className="wd-display-inline wd-bg-color-red wd-fg-color-white">
-            This div is forced to display inline and so its width=150px is ignored and it only takes up as much space as it's text
+            My personal box where this div is forced to display inline and so its width=150px is ignored and it only takes up as much space as it's text
             </div>
         </div>
       </div>
