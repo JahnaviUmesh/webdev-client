@@ -6,13 +6,16 @@ import ContextExamples from "./context/ContextExamples";
 import Counter from "./Counter";
 import CounterBroken from "./CounterBroken";
 import DateStateVariable from "./DateStateVariable";
+import Effect from "./Effect";
 import ObjectStateVariable from "./ObjectStateVariable";
 import ParentStateComponent from "./ParentStateComponent";
 import PassingDataOnEvent from "./PassingDataOnEvent";
 import PassingFunctions from "./PassingFunctions";
 import PropDrilling from "./PropDrilling";
+import ReduxExamples from "./redux/ReduxExamples";
 import StringStateVariables from "./StringStateVariables";
 import UrlEncoding from "./UrlEncoding";
+import ZustandExamples from "./zustand/ZustandExamples";
 
 export default function Lab4() {
   const sayHello = (message: string) => {
@@ -46,6 +49,9 @@ export default function Lab4() {
       <PropDrilling />
       <UrlEncoding />
       <ContextExamples />
+      <ZustandExamples />
+      <ReduxExamples />
+      <Effect />
     </div>
   );
 }
