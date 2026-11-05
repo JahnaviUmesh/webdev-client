@@ -1,15 +1,16 @@
+"use client";
 import { FaPlus, FaSearch } from "react-icons/fa";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import AssignmentItem from "./AssignmentItem";
-import * as db from "../../../database";
+import { useAssignmentsStore } from "../../../store/assignmentsStore";
 
-export default async function Assignments({
-  params,
-}: {
-  params: Promise<{ cid: string }>;
-}) {
-  const { cid } = await params;
-  const assignments = db.assignments.filter(
-    (assignment) => assignment.course === cid,
+export default function Assignments() {
+  const { cid } = useParams();
+  const courseId = cid as string;
+  const assignments = useAssignmentsStore((state) => state.assignments);
+  const courseAssignments = assignments.filter(
+    (assignment) => assignment.course === courseId,
   );
   return (
     <div id="wd-assignments">
@@ -30,13 +31,13 @@ export default async function Assignments({
           >
             <FaPlus /> Group
           </button>
-          <button
+          <Link
             id="wd-add-assignment"
-            type="button"
-            className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white"
+            href={`/courses/${courseId}/assignments/new`}
+            className="inline-flex items-center gap-1 rounded bg-red-600 px-3 py-1.5 text-sm font-medium text-white no-underline"
           >
             <FaPlus /> Assignment
-          </button>
+          </Link>
         </div>
       </div>
       <h3
@@ -52,10 +53,10 @@ export default async function Assignments({
         </button>
       </h3>
       <ul id="wd-assignment-list" className="m-0 list-none p-0">
-        {assignments.map((assignment) => (
+        {courseAssignments.map((assignment) => (
           <AssignmentItem
             key={assignment._id}
-            cid={cid}
+            cid={courseId}
             aid={assignment._id}
             title={assignment.title}
             details={`Multiple Modules | Not available until ${assignment.available} | Due ${assignment.due} | ${assignment.points} pts`}
