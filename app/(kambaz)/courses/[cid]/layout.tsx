@@ -28,9 +28,9 @@ export default function CoursesLayout({
       (e) => e.user === currentUser._id && e.course === courseId,
     );
   useEffect(() => {
-    if (!enrolled) router.push("/dashboard");
-  }, [enrolled, router]);
-  if (!enrolled) return null;
+    if (currentUser && !enrolled) router.push("/dashboard");
+  }, [currentUser, enrolled, router]);
+  if (currentUser && !enrolled) return null;
 
   return (
     <div id="wd-courses">
