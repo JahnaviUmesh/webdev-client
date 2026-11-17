@@ -4,10 +4,18 @@ export default function CourseCard({
   course,
   onEdit,
   onDelete,
+  enrolling,
+  enrolled,
+  onEnroll,
+  onUnenroll,
 }: {
   course: { _id: string; name: string; description: string; image: string };
   onEdit: () => void;
   onDelete: () => void;
+  enrolling?: boolean;
+  enrolled?: boolean;
+  onEnroll?: () => void;
+  onUnenroll?: () => void;
 }) {
   return (
     <div className="wd-dashboard-course w-[300px] max-w-full overflow-hidden rounded-lg border border-neutral-200 bg-white shadow-sm">
@@ -36,6 +44,20 @@ export default function CourseCard({
             onClick={(event) => { event.preventDefault(); onDelete(); }}>
             Delete
           </button>
+          {enrolling && (
+            <button type="button"
+              className={`ms-2 inline-flex items-center justify-center rounded px-3 py-1.5 text-sm font-medium text-white ${enrolled ? "bg-red-600" : "bg-green-600"}`}
+              onClick={(event) => {
+                event.preventDefault();
+                if (enrolled) {
+                  onUnenroll?.();
+                } else {
+                  onEnroll?.();
+                }
+              }}>
+              {enrolled ? "Unenroll" : "Enroll"}
+            </button>
+          )}
         </div>
       </Link>
     </div>

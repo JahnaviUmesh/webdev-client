@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import CourseCard from "./CourseCard";
 import * as client from "../courses/client";
+import { useAccountContext } from "../account/AccountContext";
 type Course = {
   _id: string;
   name: string;
@@ -17,15 +18,36 @@ const emptyCourse: Course = {
   image: "/images/reactjs.jpg",
 };
 export default function Dashboard() {
+  const { currentUser } = useAccountContext();
   const [courses, setCourses] = useState<Course[]>([]);
+  const [allCourses, setAllCourses] = useState<Course[]>([]);
   const [course, setCourse] = useState<Course>(emptyCourse);
+  const [showAllCourses, setShowAllCourses] = useState(false);
+
   const fetchCourses = async () => {
     try {
-      const allCourses = await client.fetchAllCourses();
-      setCourses(allCourses);
+      const my = await client.findMyCourses();
+      setCourses(my);
     } catch {
       setCourses([]);
     }
+  };
+  const fetchAllCourses = async () => {
+    try {
+      const all = await client.fetchAllCourses();
+      setAllCourses(all);
+    } catch {
+      setAllCourses([]);
+    }
+  };
+  const isEnrolled = (courseId: string) => courses.some((c) => c._id === courseId);
+  const enroll = async (courseId: string) => {
+    await client.enrollIntoCourse(courseId);
+    await fetchCourses();
+  };
+  const unenroll = async (courseId: string) => {
+    await client.unenrollFromCourse(courseId);
+    await fetchCourses();
   };
   const addCourse = async () => {
     const newCourse = await client.createCourse(course);
@@ -43,10 +65,23 @@ export default function Dashboard() {
   };
   useEffect(() => {
     fetchCourses();
-  }, []);
+    fetchAllCourses();
+  }, [currentUser]);
+
+  const displayedCourses = showAllCourses ? allCourses : courses;
+
   return (
     <div id="wd-dashboard">
-      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <h1 id="wd-dashboard-title" className="flex items-center justify-between">
+        Dashboard
+        {currentUser && (
+          <button type="button" id="wd-enrollments-toggle"
+            className="rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white"
+            onClick={() => setShowAllCourses(!showAllCourses)}>
+            Enrollments
+          </button>
+        )}
+      </h1>
       <hr />
       <h5 className="flex flex-wrap items-center gap-2">
         New Course
@@ -70,14 +105,18 @@ export default function Dashboard() {
         className="mb-3 block w-full max-w-xl rounded border border-neutral-300 px-3 py-1.5"
         onChange={(e) => setCourse({ ...course, startDate: e.target.value })} />
       <hr />
-      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+      <h2 id="wd-dashboard-published">Published Courses ({displayedCourses.length})</h2>
       <hr />
       <div id="wd-dashboard-courses"
         className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {courses.map((c) => (
+        {displayedCourses.map((c) => (
           <CourseCard key={c._id} course={c}
             onEdit={() => setCourse(c)}
-            onDelete={() => deleteCourse(c._id)} />
+            onDelete={() => deleteCourse(c._id)}
+            enrolling={showAllCourses}
+            enrolled={isEnrolled(c._id)}
+            onEnroll={() => enroll(c._id)}
+            onUnenroll={() => unenroll(c._id)} />
         ))}
       </div>
     </div>
