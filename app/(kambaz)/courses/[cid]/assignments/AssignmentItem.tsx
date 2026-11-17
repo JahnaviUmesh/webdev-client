@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaFileAlt, FaTrash } from "react-icons/fa";
-import { useAssignmentsStore } from "../../../store/assignmentsStore";
 import DeleteAssignmentDialog from "./DeleteAssignmentDialog";
 
 export default function AssignmentItem({
@@ -10,13 +9,14 @@ export default function AssignmentItem({
   aid,
   title,
   details,
+  onDelete,
 }: {
   cid: string;
   aid: string;
   title: string;
   details: string;
+  onDelete: () => void;
 }) {
-  const deleteAssignment = useAssignmentsStore((state) => state.deleteAssignment);
   const [show, setShow] = useState(false);
 
   return (
@@ -42,7 +42,7 @@ export default function AssignmentItem({
         title={title}
         onCancel={() => setShow(false)}
         onConfirm={() => {
-          deleteAssignment(aid);
+          onDelete();
           setShow(false);
         }}
       />
