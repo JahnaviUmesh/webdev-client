@@ -41,6 +41,18 @@ export default function TOC() {
           </li>
         );
       })}
+      <li>
+        <a href="https://github.com/JahnaviUmesh/webdev-server" id="wd-github-server"
+           className="text-blue-700 underline" target="_blank" rel="noreferrer">
+          Node Server Repo
+        </a>
+      </li>
+      <li>
+        <a href="https://webdev-server-vvny.onrender.com" id="wd-render-url"
+           className="text-blue-700 underline" target="_blank" rel="noreferrer">
+          Render Server URL
+        </a>
+      </li>
     </ul>
   );
 }
